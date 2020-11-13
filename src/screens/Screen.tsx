@@ -7,8 +7,8 @@ import { HEADER_HEIGHT } from "../constants/dimension";
 import { EthersContext } from "../context/EthersContext";
 
 const WebScreen = props => {
-    const { signer, chainId } = useContext(EthersContext);
-    if (!signer) return <ConnectToWallet />;
+    const { address, chainId } = useContext(EthersContext);
+    if (!address) return <ConnectToWallet />;
     if (chainId !== 42)
         return (
             <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
