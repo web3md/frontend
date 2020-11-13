@@ -1,21 +1,30 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+/* tslint:disable:ordered-imports */
+import "./globals";
+import React from "react";
+
+import {
+    SourceCodePro_200ExtraLight,
+    SourceCodePro_400Regular,
+    SourceCodePro_700Bold,
+    useFonts
+} from "@expo-google-fonts/source-code-pro";
+import { AppLoading } from "expo";
+
+import { ContextProvider } from "./src/context";
+import { Screens } from "./src/screens";
 
 export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
+    const [fontsLoaded] = useFonts({
+        light: SourceCodePro_200ExtraLight,
+        regular: SourceCodePro_400Regular,
+        bold: SourceCodePro_700Bold
+    });
+    if (!fontsLoaded) {
+        return <AppLoading />;
+    }
+    return (
+        <ContextProvider>
+            <Screens />
+        </ContextProvider>
+    );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
