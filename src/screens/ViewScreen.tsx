@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { StyleSheet, View } from "react-native";
+import { View } from "react-native";
 import Markdown from "react-native-markdown-display";
 import { useParams } from "react-router-dom";
 
@@ -13,6 +13,7 @@ import Title from "../components/Title";
 import { Spacing } from "../constants/dimension";
 import { EthersContext } from "../context/EthersContext";
 import useBlog from "../hooks/useBlog";
+import useColors from "../hooks/useColors";
 import Post from "../types/Post";
 import Screen from "./Screen";
 
@@ -50,6 +51,16 @@ const ViewScreen = () => {
 };
 
 const Body = ({ text }) => {
+    const { textDark } = useColors();
+    const styles = {
+        heading1: { fontFamily: "bold", marginTop: Spacing.normal, marginBottom: Spacing.tiny },
+        heading2: { fontFamily: "bold", marginTop: Spacing.small, marginBottom: Spacing.tiny },
+        heading3: { fontFamily: "bold", marginTop: Spacing.small, marginBottom: Spacing.tiny },
+        heading4: { fontFamily: "bold", marginTop: Spacing.tiny },
+        heading5: { fontFamily: "bold", marginTop: Spacing.tiny },
+        heading6: { fontFamily: "bold", marginTop: Spacing.tiny },
+        body: { fontFamily: "regular", color: textDark, fontSize: 15, lineHeight: 27.5 }
+    };
     return (
         <Markdown
             onLinkPress={url => {
@@ -69,15 +80,5 @@ const NotFound = () => (
         </Text>
     </View>
 );
-
-const styles = StyleSheet.create({
-    heading1: { fontFamily: "bold", marginTop: Spacing.normal, marginBottom: Spacing.tiny },
-    heading2: { fontFamily: "bold", marginTop: Spacing.small, marginBottom: Spacing.tiny },
-    heading3: { fontFamily: "bold", marginTop: Spacing.small, marginBottom: Spacing.tiny },
-    heading4: { fontFamily: "bold", marginTop: Spacing.tiny },
-    heading5: { fontFamily: "bold", marginTop: Spacing.tiny },
-    heading6: { fontFamily: "bold", marginTop: Spacing.tiny },
-    body: { fontFamily: "regular", fontSize: 15, lineHeight: 27.5 }
-});
 
 export default ViewScreen;
