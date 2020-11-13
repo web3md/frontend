@@ -13,7 +13,7 @@ export interface ScreenProps extends ViewProps {
 const WebScreen: FC<ScreenProps> = props => {
     const { address, chainId } = useContext(EthersContext);
     if (!props.allowRead && !address) return <ConnectToWallet />;
-    if (chainId !== 42)
+    if (!props.allowRead && chainId !== 42)
         return (
             <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
                 <Text light={true} style={{ textAlign: "center" }}>
