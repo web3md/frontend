@@ -21,9 +21,9 @@ const useBlog = () => {
             }
         }
     };
-    const fetchPost = useCallback(async (hash: string, signer?: ethers.Signer) => {
-        if (hash && signer) {
-            const blog = getBlog(signer);
+    const fetchPost = useCallback(async (hash: string, provider?: ethers.providers.Provider) => {
+        if (hash && provider) {
+            const blog = getBlog(provider);
             return blog.getPost(hash);
         }
     }, []);

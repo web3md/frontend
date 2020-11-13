@@ -1,14 +1,18 @@
-import React, { useContext } from "react";
-import { View } from "react-native";
+import React, { FC, useContext } from "react";
+import { View, ViewProps } from "react-native";
 
 import Text from "../components/Text";
 import ConnectToWallet from "../components/web/ConnectToWallet";
 import { HEADER_HEIGHT } from "../constants/dimension";
 import { EthersContext } from "../context/EthersContext";
 
-const WebScreen = props => {
+export interface ScreenProps extends ViewProps {
+    allowRead?: boolean;
+}
+
+const WebScreen: FC<ScreenProps> = props => {
     const { address, chainId } = useContext(EthersContext);
-    if (!address) return <ConnectToWallet />;
+    if (!props.allowRead && !address) return <ConnectToWallet />;
     if (chainId !== 42)
         return (
             <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>

@@ -19,16 +19,16 @@ import Screen from "./Screen";
 
 const ViewScreen = () => {
     const { hash } = useParams();
-    const { signer, address } = useContext(EthersContext);
+    const { provider } = useContext(EthersContext);
     const [post, setPost] = useState<Post>();
     const { fetchPost } = useBlog();
     useAsyncEffect(async () => {
-        if (hash && signer && address) {
-            setPost(await fetchPost(hash, signer));
+        if (hash && provider) {
+            setPost(await fetchPost(hash, provider));
         }
-    }, [hash, signer, address]);
+    }, [hash, provider]);
     return (
-        <Screen>
+        <Screen allowRead={true}>
             <Container>
                 <Content>
                     {post ? (
