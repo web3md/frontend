@@ -10,8 +10,7 @@ const Content: React.FunctionComponent<ViewProps> = props => {
             style={[
                 {
                     width: IS_DESKTOP ? DESKTOP_CONTENT_WIDTH : "100%",
-                    marginLeft: "auto",
-                    marginRight: "auto",
+                    alignSelf: "center",
                     paddingHorizontal: Spacing.normal,
                     paddingVertical: Spacing.huge
                 },

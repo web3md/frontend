@@ -15,29 +15,32 @@ import Screen from "./Screen";
 
 const NewScreen = () => {
     const { title, setTitle, body, setBody } = useContext(GlobalContext);
+    const { creatingPost, createPost } = useBlog();
     return (
         <Screen>
             <Container>
                 <Content style={{ height: "100%", paddingBottom: 0 }}>
-                    <TitleInput text={title} onChangeText={setTitle} />
-                    <BodyInput text={body} onChangeText={setBody} />
-                    <Controls />
+                    <TitleInput text={title} onChangeText={setTitle} loading={creatingPost} />
+                    <BodyInput text={body} onChangeText={setBody} loading={creatingPost} />
+                    <Controls loading={creatingPost} createPost={createPost} />
                 </Content>
             </Container>
         </Screen>
     );
 };
 
-const TitleInput = ({ text, onChangeText }) => {
+const TitleInput = ({ text, onChangeText, loading }) => {
     const { textDark } = useColors();
     return (
         <Input
             autoFocus={true}
             placeholder={"Title"}
+            editable={!loading}
             value={text}
             onChangeText={onChangeText}
             inputStyle={[
                 {
+                    width: "100%",
                     fontSize: 40,
                     fontFamily: "regular",
                     paddingBottom: 4,
@@ -52,12 +55,13 @@ const TitleInput = ({ text, onChangeText }) => {
     );
 };
 
-const BodyInput = ({ text, onChangeText }) => {
+const BodyInput = ({ text, onChangeText, loading }) => {
     const { textDark } = useColors();
     return (
         <Input
             multiline={true}
             placeholder={"Tell your story..."}
+            editable={!loading}
             value={text}
             onChangeText={onChangeText}
             inputStyle={[
@@ -81,20 +85,19 @@ const BodyInput = ({ text, onChangeText }) => {
     );
 };
 
-const Controls = () => {
+const Controls = ({ loading, createPost }) => {
     const { title, body } = useContext(GlobalContext);
     const { signer } = useContext(EthersContext);
-    const { primary } = useColors();
-    const { creatingPost, createPost } = useBlog();
+    const { accent } = useColors();
     const onPress = async () => await createPost(title, body, signer);
     return (
         <FlexView style={{ width: "100%", paddingVertical: Spacing.small, justifyContent: "flex-end" }}>
             <Button
                 type={"clear"}
                 title={"Publish"}
-                color={primary}
+                color={accent}
                 disabled={!title || !body}
-                loading={creatingPost}
+                loading={loading}
                 onPress={onPress}
             />
         </FlexView>

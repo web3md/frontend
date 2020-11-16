@@ -3,7 +3,9 @@ import { View } from "react-native";
 import { HashRouter as Router, Redirect, Route, Switch } from "react-router-dom";
 
 import useAsyncEffect from "use-async-effect";
+import MobileWebMenu from "../components/web/MobileWebMenu";
 import WebHeader from "../components/web/WebHeader";
+import { IS_DESKTOP } from "../constants/dimension";
 import { GlobalContext } from "../context/GlobalContext";
 import useColors from "../hooks/useColors";
 import EmptyScreen from "./EmptyScreen";
@@ -34,6 +36,7 @@ const WebScreens = () => {
                         <Redirect to={"/new"} />
                     </Switch>
                     <WebHeader onExpandMenu={() => setMenuExpanded(true)} />
+                    {!IS_DESKTOP && <MobileWebMenu expanded={menuExpanded} onCollapse={() => setMenuExpanded(false)} />}
                 </View>
             </Suspense>
         </Router>

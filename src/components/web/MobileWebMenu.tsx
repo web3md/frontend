@@ -30,10 +30,7 @@ const MobileWebMenu = ({ expanded, onCollapse }) => {
                     </FlexView>
                     <View style={{ alignItems: "flex-end" }}>
                         <View style={{ height: Spacing.large }} />
-                        <MobileWebMenuItem title={"Swap"} path={"/swap"} />
-                        <MobileWebMenuItem title={"Liquidity"} path={"/liquidity"} />
-                        {/*<MobileWebMenuItem title={"Farming"} path={"/farming"} />*/}
-                        <MobileWebMenuItem title={"Staking"} path={"/staking"} />
+                        <MobileWebMenuItem title={"New Post"} path={"/"} />
                     </View>
                 </View>
             </TouchableWithoutFeedback>
