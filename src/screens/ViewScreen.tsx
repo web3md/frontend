@@ -65,7 +65,7 @@ const Body = ({ text }) => {
         <Markdown
             onLinkPress={url => {
                 window.open(url, "_blank");
-                return true;
+                return false;
             }}
             style={styles}>
             {text}
