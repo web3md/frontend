@@ -27,6 +27,9 @@ const WebScreens = () => {
             <Suspense fallback={<EmptyScreen />}>
                 <View style={{ flex: 1, backgroundColor: background }}>
                     <Switch>
+                        <Route path={"/post/:hash/:revision"}>
+                            <ViewScreen />
+                        </Route>
                         <Route path={"/post/:hash"}>
                             <ViewScreen />
                         </Route>

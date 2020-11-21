@@ -24,7 +24,14 @@ const useBlog = () => {
     const fetchPost = useCallback(async (hash: string, provider?: ethers.providers.Provider) => {
         if (hash && provider) {
             const blog = getBlog(provider);
-            return blog.getPost(hash);
+            const post = await blog.getPost(hash);
+            const revisions = await Promise.all(
+                new Array(await blog.numberOfRevisions(hash)).map((_, index) => blog.revisionAt(hash, index))
+            );
+            return {
+                ...post,
+                revisions
+            };
         }
     }, []);
     return { creatingPost, createPost, fetchPost };
