@@ -1,12 +1,16 @@
-import React, { useContext } from "react";
-import { Platform } from "react-native";
-import { Input } from "react-native-elements";
+import React, { useContext, useState } from "react";
+import { Platform, ScrollView, View } from "react-native";
+import { Icon, Input } from "react-native-elements";
 
+import Modal from "modal-react-native-web";
 import Button from "../components/Button";
 import Container from "../components/Container";
 import Content from "../components/Content";
 import FlexView from "../components/FlexView";
-import { Spacing } from "../constants/dimension";
+import MarkdownView from "../components/MarkdownView";
+import Text from "../components/Text";
+import Title from "../components/Title";
+import { HEADER_HEIGHT, Spacing } from "../constants/dimension";
 import { EthersContext } from "../context/EthersContext";
 import { GlobalContext } from "../context/GlobalContext";
 import useBlog from "../hooks/useBlog";
@@ -16,15 +20,17 @@ import Screen from "./Screen";
 const NewScreen = () => {
     const { title, setTitle, body, setBody } = useContext(GlobalContext);
     const { creatingPost, createPost } = useBlog();
+    const [open, setOpen] = useState(false);
     return (
         <Screen>
             <Container>
                 <Content style={{ height: "100%", paddingBottom: 0 }}>
                     <TitleInput text={title} onChangeText={setTitle} loading={creatingPost} />
                     <BodyInput text={body} onChangeText={setBody} loading={creatingPost} />
-                    <Controls loading={creatingPost} createPost={createPost} />
+                    <Controls loading={creatingPost} createPost={createPost} setOpen={setOpen} />
                 </Content>
             </Container>
+            <PreviewModal open={open} setOpen={setOpen} />
         </Screen>
     );
 };
@@ -85,13 +91,14 @@ const BodyInput = ({ text, onChangeText, loading }) => {
     );
 };
 
-const Controls = ({ loading, createPost }) => {
+const Controls = ({ loading, createPost, setOpen }) => {
     const { title, body } = useContext(GlobalContext);
     const { signer } = useContext(EthersContext);
-    const { accent } = useColors();
+    const { accent, textLight } = useColors();
     const onPress = async () => await createPost(title, body, signer);
     return (
         <FlexView style={{ width: "100%", paddingVertical: Spacing.small, justifyContent: "flex-end" }}>
+            <Button type={"clear"} title={"Preview"} color={textLight} onPress={() => setOpen(true)} />
             <Button
                 type={"clear"}
                 title={"Publish"}
@@ -101,6 +108,38 @@ const Controls = ({ loading, createPost }) => {
                 onPress={onPress}
             />
         </FlexView>
+    );
+};
+
+const PreviewModal = ({ open, setOpen }) => {
+    const { title, body } = useContext(GlobalContext);
+    const { textDark, backgroundLight } = useColors();
+    return (
+        <Modal animationType="slide" transparent={true} visible={open}>
+            <Content
+                style={{
+                    backgroundColor: backgroundLight,
+                    height: "100%",
+                    marginTop: HEADER_HEIGHT,
+                    paddingVertical: Spacing.normal
+                }}>
+                <FlexView style={{ alignItems: "center" }}>
+                    <Text style={{ flex: 1, fontSize: 24 }}>Preview</Text>
+                    <Icon
+                        type={"material-community"}
+                        name={"close"}
+                        onPress={() => setOpen(false)}
+                        size={32}
+                        color={textDark}
+                    />
+                </FlexView>
+                <Title text={title} style={{ marginTop: Spacing.normal }} />
+                <View style={{ height: Spacing.small }} />
+                <ScrollView style={{ flex: 1 }}>
+                    <MarkdownView text={body} />
+                </ScrollView>
+            </Content>
+        </Modal>
     );
 };
 

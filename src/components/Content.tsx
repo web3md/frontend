@@ -12,7 +12,7 @@ const Content: React.FunctionComponent<ViewProps> = props => {
                     width: IS_DESKTOP ? DESKTOP_CONTENT_WIDTH : "100%",
                     alignSelf: "center",
                     paddingHorizontal: Spacing.normal,
-                    paddingVertical: Spacing.huge
+                    paddingVertical: Spacing.large
                 },
                 props.style
             ]}

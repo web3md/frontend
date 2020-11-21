@@ -63,10 +63,10 @@ const Menu = () => {
         <FlexView
             style={{
                 height: "100%",
-                alignItems: "flex-end"
+                alignItems: "center"
             }}>
             <MenuItem title={"New Post"} path={"/"} />
-            <DarkModeSwitch style={{ marginLeft: Spacing.tiny, marginRight: -8, marginBottom: -5 }} />
+            <DarkModeSwitch style={{ marginLeft: Spacing.small, marginRight: -8 }} />
         </FlexView>
     );
 };
@@ -77,7 +77,7 @@ const MenuItem = ({ title, path }) => {
     const active = match?.path?.startsWith(path);
     return (
         <Link to={path} style={{ marginLeft: Spacing.tiny, textDecoration: "none" }}>
-            <Text style={{ fontFamily: "regular", fontSize: 15, color: active ? textDark : textLight }}>{title}</Text>
+            <Text style={{ fontFamily: "regular", fontSize: 18, color: active ? textDark : textLight }}>{title}</Text>
         </Link>
     );
 };
