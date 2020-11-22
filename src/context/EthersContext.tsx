@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { ethers } from "ethers";
 import useAsyncEffect from "use-async-effect";
@@ -12,13 +12,13 @@ export const EthersContext = React.createContext({
     ensName: null as string | null
 });
 
+export const provider = new ethers.providers.AlchemyProvider(42, "eRvHBkwNnm65K0KiQbNihiTyjktIGtbo");
+export const mainnetProvider = new ethers.providers.AlchemyProvider(1, "FC2Xho94WG7hi67GhLb7Rf-9TdKRqz0p");
+
 // tslint:disable-next-line:max-func-body-length
 export const EthersContextProvider = ({ children }) => {
     const ethereum = useEthereum();
     const [chainId, setChainId] = useState<number>(1);
-    const provider = useMemo(() => {
-        return new ethers.providers.AlchemyProvider("kovan", "eRvHBkwNnm65K0KiQbNihiTyjktIGtbo");
-    }, []);
     const [signer, setSigner] = useState<ethers.providers.JsonRpcSigner>();
     const [address, setAddress] = useState<string | null>(null);
     const [ensName, setENSName] = useState<string | null>(null);
@@ -57,11 +57,11 @@ export const EthersContextProvider = ({ children }) => {
     }, [ethereum]);
 
     useAsyncEffect(async () => {
-        if (signer && address) {
-            const ens = await signer.provider.lookupAddress(address);
+        if (address) {
+            const ens = await mainnetProvider.lookupAddress(address);
             setENSName(ens);
         }
-    }, [signer, address]);
+    }, [address]);
 
     return (
         <EthersContext.Provider
