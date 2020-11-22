@@ -5,7 +5,7 @@ import { useParams } from "react-router-dom";
 
 import { ethers } from "ethers";
 import moment from "moment";
-import useAsyncEffect from "use-async-effect";
+import Button from "../components/Button";
 import CenteredModal from "../components/CeneteredModal";
 import Container from "../components/Container";
 import Content from "../components/Content";
@@ -16,40 +16,30 @@ import Text from "../components/Text";
 import Title from "../components/Title";
 import { SCREEN_WIDTH, Spacing } from "../constants/dimension";
 import { EthersContext } from "../context/EthersContext";
-import useBlog from "../hooks/useBlog";
 import useColors from "../hooks/useColors";
 import useFormattedAddress from "../hooks/useFormattedAddress";
 import useLinker from "../hooks/useLinker";
-import Post from "../types/Post";
+import usePostState from "../hooks/usePostState";
 import Screen from "./Screen";
 
 const ViewScreen = () => {
     const { hash, revision } = useParams();
-    const { provider } = useContext(EthersContext);
-    const [post, setPost] = useState<Post>();
+    const state = usePostState(hash);
     const [open, setOpen] = useState(false);
-    const { fetchPost } = useBlog();
-    useAsyncEffect(async () => {
-        if (hash && provider) {
-            setPost(await fetchPost(hash, provider));
-        }
-    }, [hash, provider]);
     return (
         <Screen allowRead={true}>
             <Container>
                 <Content>
-                    {post ? (
-                        post.author === ethers.constants.AddressZero ? (
-                            <NotFound />
-                        ) : (
-                            <PostView post={post} revision={revision} setOpen={setOpen} />
-                        )
-                    ) : (
+                    {state.reading ? (
                         <Loading />
+                    ) : !state.post || state.post.author === ethers.constants.AddressZero ? (
+                        <NotFound />
+                    ) : (
+                        <PostView hash={hash} post={state.post} revision={revision} setOpen={setOpen} />
                     )}
                 </Content>
             </Container>
-            <RevisionsModal hash={hash} post={post} open={open} setOpen={setOpen} />
+            {state.post && <RevisionsModal hash={hash} post={state.post} open={open} setOpen={setOpen} />}
         </Screen>
     );
 };
@@ -62,33 +52,45 @@ const NotFound = () => (
     </View>
 );
 
-const PostView = ({ post, revision, setOpen }) => {
-    const address = useFormattedAddress(post.author);
-    const onPress = useLinker("https://etherscan.io/address/" + post.author, "_blank");
+const PostView = ({ hash, post, revision, setOpen }) => {
+    const { address } = useContext(EthersContext);
+    const addr = useFormattedAddress(post.author);
+    const onViewAddress = useLinker("https://etherscan.io/address/" + post.author, "_blank");
     const noRevision = revision === undefined || revision >= post.revisions.length;
     const title = noRevision ? post.title : post.revisions[revision].title;
     const body = noRevision ? post.body : post.revisions[revision].body;
-    const date = new Date(
-        noRevision ? post.updatedAt.toNumber() * 1000 : post.revisions[revision].createdAt.toNumber() * 1000
-    );
+    const date = noRevision ? post.updatedAt : post.revisions[revision].createdAt;
+    const isAuthor = post?.author?.toLowerCase() === address?.toLowerCase();
     return (
         <View>
             <Title text={title} />
-            <FlexView style={{ justifyContent: "flex-end", marginBottom: Spacing.small }}>
+            <FlexView style={{ justifyContent: "flex-end" }}>
                 <Text note={true}>
                     Written by{" "}
-                    <Text style={{ textDecorationLine: "underline" }} onPress={onPress}>
-                        {address}
+                    <Text style={{ textDecorationLine: "underline" }} onPress={onViewAddress}>
+                        {addr}
                     </Text>{" "}
                     |{" "}
                     <Text style={{ textDecorationLine: "underline" }} onPress={() => setOpen(true)}>
                         {noRevision ? "latest" : "Revision " + revision}
                     </Text>{" "}
-                    | {moment(date).format("L LT")}{" "}
+                    | {moment(new Date(date.toNumber() * 1000)).format("L LT")}{" "}
                 </Text>
             </FlexView>
+            <View style={{ height: Spacing.small }} />
             <MarkdownView text={body} />
+            {isAuthor && <AuthorControls hash={hash} />}
         </View>
+    );
+};
+
+const AuthorControls = ({ hash }) => {
+    const onEdit = useLinker("/edit/" + hash);
+    const { accent } = useColors();
+    return (
+        <FlexView style={{ justifyContent: "flex-end", marginBottom: Spacing.small }}>
+            <Button type={"clear"} color={accent} onPress={onEdit} title={"Edit"} />
+        </FlexView>
     );
 };
 
@@ -102,13 +104,22 @@ const RevisionsModal = ({ hash, post, open, setOpen }) => {
                     padding: Spacing.normal,
                     width: SCREEN_WIDTH > 400 ? 400 : "100%"
                 }}>
-                <FlexView style={{ alignItems: "center" }}>
+                <FlexView style={{ alignItems: "center", marginBottom: Spacing.small }}>
                     <Text style={{ flex: 1, fontSize: 24 }}>Revisions</Text>
                     <Icon type={"material-community"} name={"close"} onPress={() => setOpen(false)} color={textDark} />
                 </FlexView>
-                {post?.revisions?.map((revision, index) => (
-                    <Revision key={index} hash={hash} index={index} createdAt={revision.createdAt} setOpen={setOpen} />
-                ))}
+                {post.revisions
+                    .slice()
+                    .reverse()
+                    .map((revision, index) => (
+                        <Revision
+                            key={index}
+                            hash={hash}
+                            index={post.revisions.length - index - 1}
+                            createdAt={revision.createdAt}
+                            setOpen={setOpen}
+                        />
+                    ))}
             </View>
         </CenteredModal>
     );
@@ -122,11 +133,9 @@ const Revision = ({ hash, index, createdAt, setOpen }) => {
         setOpen(false);
     };
     return (
-        <View style={{ marginVertical: Spacing.small }}>
-            <Text onPress={onPress} style={{ textDecorationLine: "underline" }}>
-                {"Revision " + index + ": " + moment(date).format("L LT")}
-            </Text>
-        </View>
+        <Text onPress={onPress} style={{ textDecorationLine: "underline", marginBottom: Spacing.tiny }}>
+            {"Revision " + index + ": " + moment(date).format("L LT")}
+        </Text>
     );
 };
 

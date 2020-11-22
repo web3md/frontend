@@ -7,19 +7,13 @@ export const GlobalContext = React.createContext({
     load: async () => {},
     clear: async () => {},
     darkMode: false,
-    setDarkMode: async _darkMode => {},
-    title: "",
-    setTitle: (_text: string) => {},
-    body: "",
-    setBody: (_text: string) => {}
+    setDarkMode: async _darkMode => {}
 });
 
 // tslint:disable-next-line:max-func-body-length
 export const GlobalContextProvider = ({ children }) => {
     const colorScheme = useColorScheme();
     const [darkMode, setDarkMode] = useState(colorScheme === "dark");
-    const [title, setTitle] = useState("");
-    const [body, setBody] = useState("");
     return (
         <GlobalContext.Provider
             value={{
@@ -35,11 +29,7 @@ export const GlobalContextProvider = ({ children }) => {
                 setDarkMode: async (mode: boolean) => {
                     await AsyncStorage.setItem("dark_mode", String(mode));
                     setDarkMode(mode);
-                },
-                title,
-                setTitle,
-                body,
-                setBody
+                }
             }}>
             {children}
         </GlobalContext.Provider>

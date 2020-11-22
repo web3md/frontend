@@ -8,6 +8,7 @@ import WebHeader from "../components/web/WebHeader";
 import { IS_DESKTOP } from "../constants/dimension";
 import { GlobalContext } from "../context/GlobalContext";
 import useColors from "../hooks/useColors";
+import EditScreen from "./EditScreen";
 import EmptyScreen from "./EmptyScreen";
 import NewScreen from "./NewScreen";
 import ViewScreen from "./ViewScreen";
@@ -32,6 +33,12 @@ const WebScreens = () => {
                         </Route>
                         <Route path={"/post/:hash"}>
                             <ViewScreen />
+                        </Route>
+                        <Route path={"/edit/:hash/:revision"}>
+                            <EditScreen />
+                        </Route>
+                        <Route path={"/edit/:hash"}>
+                            <EditScreen />
                         </Route>
                         <Route path={"/new"}>
                             <NewScreen />
