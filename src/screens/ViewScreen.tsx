@@ -65,7 +65,7 @@ const PostView = ({ hash, post, revision, setOpen }) => {
         <View>
             <Title text={title} />
             <FlexView style={{ justifyContent: "flex-end" }}>
-                <Text note={true}>
+                <Text>
                     Written by{" "}
                     <Text style={{ textDecorationLine: "underline" }} onPress={onViewAddress}>
                         {addr}
