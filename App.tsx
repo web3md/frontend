@@ -4,7 +4,7 @@ import React from "react";
 
 import {
     CormorantGaramond_300Light,
-    CormorantGaramond_400Regular,
+    CormorantGaramond_500Medium,
     CormorantGaramond_700Bold,
     useFonts
 } from "@expo-google-fonts/cormorant-garamond";
@@ -16,7 +16,7 @@ import { Screens } from "./src/screens";
 export default function App() {
     const [fontsLoaded] = useFonts({
         light: CormorantGaramond_300Light,
-        regular: CormorantGaramond_400Regular,
+        regular: CormorantGaramond_500Medium,
         bold: CormorantGaramond_700Bold
     });
     if (!fontsLoaded) {
