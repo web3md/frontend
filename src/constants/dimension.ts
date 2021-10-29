@@ -2,8 +2,8 @@ import { Dimensions } from "react-native";
 
 export const SCREEN_WIDTH = Math.round(Dimensions.get("window").width);
 export const SCREEN_HEIGHT = Math.round(Dimensions.get("window").height);
-export const HEADER_WIDTH = 980;
-export const DESKTOP_CONTENT_WIDTH = 980;
+export const HEADER_WIDTH = 840;
+export const DESKTOP_CONTENT_WIDTH = 840;
 export const IS_HIGH_RESOLUTION = SCREEN_HEIGHT > 667;
 export const IS_DESKTOP = SCREEN_WIDTH > HEADER_WIDTH;
 export const HEADER_HEIGHT = 64;

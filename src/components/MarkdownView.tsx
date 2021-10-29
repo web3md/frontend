@@ -13,9 +13,9 @@ const MarkdownView = ({ text }) => {
         heading4: { fontFamily: "bold", marginTop: Spacing.small },
         heading5: { fontFamily: "bold", marginTop: Spacing.tiny },
         heading6: { fontFamily: "bold", marginTop: Spacing.tiny },
-        body: { fontFamily: "regular", color: textDark, fontSize: 18, lineHeight: 36 },
+        body: { fontFamily: "regular", color: textDark, fontSize: 20, lineHeight: 40 },
         code_inline: { padding: 2, color: accent, backgroundColor: backgroundLight },
-        paragraph: { paddingBottom: Spacing.small },
+        paragraph: { paddingBottom: Spacing.normal },
         bullet_list: { paddingBottom: Spacing.small },
         ordered_list: { paddingBottom: Spacing.small }
     };

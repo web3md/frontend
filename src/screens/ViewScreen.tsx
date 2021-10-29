@@ -65,7 +65,7 @@ const PostView = ({ hash, post, revision, setOpen }) => {
         <View>
             <Title text={title} />
             <FlexView style={{ justifyContent: "flex-end" }}>
-                <Text>
+                <Text caption={true}>
                     Written by{" "}
                     <Text style={{ textDecorationLine: "underline" }} onPress={onViewAddress}>
                         {addr}
@@ -77,7 +77,7 @@ const PostView = ({ hash, post, revision, setOpen }) => {
                     | {moment(new Date(date.toNumber() * 1000)).format("L LT")}{" "}
                 </Text>
             </FlexView>
-            <View style={{ height: Spacing.small }} />
+            <View style={{ height: Spacing.huge }} />
             <MarkdownView text={body} />
             {isAuthor && <AuthorControls hash={hash} />}
         </View>

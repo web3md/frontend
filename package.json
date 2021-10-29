@@ -10,6 +10,7 @@
     "predeploy": "bash ./scripts/build:web.sh"
   },
   "dependencies": {
+    "@expo-google-fonts/cutive-mono": "^0.2.0",
     "@expo-google-fonts/open-sans": "^0.1.0",
     "@expo-google-fonts/pt-mono": "^0.1.0",
     "@expo-google-fonts/source-code-pro": "^0.1.0",
