@@ -2,8 +2,12 @@
 import "./globals";
 import React from "react";
 
-import { SourceCodePro_200ExtraLight, SourceCodePro_700Bold, useFonts } from "@expo-google-fonts/source-code-pro";
-import { CutiveMono_400Regular } from "@expo-google-fonts/cutive-mono";
+import {
+    CormorantGaramond_300Light,
+    CormorantGaramond_400Regular,
+    CormorantGaramond_700Bold,
+    useFonts
+} from "@expo-google-fonts/cormorant-garamond";
 import { AppLoading } from "expo";
 
 import { ContextProvider } from "./src/context";
@@ -11,9 +15,9 @@ import { Screens } from "./src/screens";
 
 export default function App() {
     const [fontsLoaded] = useFonts({
-        light: SourceCodePro_200ExtraLight,
-        regular: CutiveMono_400Regular,
-        bold: SourceCodePro_700Bold
+        light: CormorantGaramond_300Light,
+        regular: CormorantGaramond_400Regular,
+        bold: CormorantGaramond_700Bold
     });
     if (!fontsLoaded) {
         return <AppLoading />;

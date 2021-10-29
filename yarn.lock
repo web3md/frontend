@@ -1343,6 +1343,11 @@
     "@ethersproject/properties" "^5.0.3"
     "@ethersproject/strings" "^5.0.4"
 
+"@expo-google-fonts/cormorant-garamond@^0.2.0":
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/@expo-google-fonts/cormorant-garamond/-/cormorant-garamond-0.2.0.tgz#9b002d67614f2312aa0a7c8fb101af88fe87fa34"
+  integrity sha512-EbVnmXByT6nZHYEIcy0lFD8g/02G2ASA3YkEE4HC9lO4+IkqGrgKWrGJBDteugiHymLO/8t7vu9lT2nDnHTPyw==
+
 "@expo-google-fonts/cutive-mono@^0.2.0":
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/@expo-google-fonts/cutive-mono/-/cutive-mono-0.2.0.tgz#389c6a95bec27dc9bd5ea0e6335cef4f965edabb"
